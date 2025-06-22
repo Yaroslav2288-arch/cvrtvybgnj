@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тайны Чёрного моря</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sea-deep: #0a192f;
+            --sea-dark: #172a45;
+            --sea-medium: #303f60;
+            --sea-light: #64ffda;
+            --text-light: #ccd6f6;
+            --text-lighter: #e6f1ff;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--sea-deep);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+        
+        /* Шапка с бегущей строкой */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(to bottom, var(--sea-deep), var(--sea-dark));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 4rem;
+            margin: 0 0 20px 0;
+            color: var(--sea-light);
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+        }
+        
+        /* Бегущая строка */
+        .marquee-container {
+            width: 100%;
+            padding: 15px 0;
+            background: rgba(23, 42, 69, 0.7);
+            position: absolute;
+            bottom: 0;
+            overflow: hidden;
+        }
+        
+        .marquee {
+            color: var(--text-lighter);
+            font-size: 1.2rem;
+            white-space: nowrap;
+            display: inline-block;
+            animation: marquee 30s linear infinite;
+            padding-left: 100%;
+        }
+        
+        /* Секция с информацией */
+        .info-section {
+            padding: 50px 10%;
+            background: var(--sea-dark);
+            text-align: center;
+        }
+        
+        /* Игровая зона */
+        .games-section {
+            padding: 50px 10%;
+            background: var(--sea-medium);
+        }
+        
+        .game-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .game-card {
+            width: 100%;
+            max-width: 500px;
+            background: var(--sea-dark);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .game-title {
+            background: var(--sea-light);
+            color: var(--sea-deep);
+            padding: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .game-content {
+            padding: 20px;
+        }
+        
+        /* Игра "Морской бой" */
+        #battleGame {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            padding: 10px;
+        }
+        
+        .battle-cell {
+            aspect-ratio: 1;
+            background: var(--sea-deep);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--sea-medium);
+        }
+        
+        .battle-cell:hover {
+            background: var(--sea-medium);
+        }
+        
+        .battle-cell.ship {
+            background: var(--sea-light);
+        }
+        
+        .battle-cell.hit {
+            background: #ff5555;
+        }
+        
+        .battle-cell.miss {
+            background: var(--sea-medium);
+        }
+        
+        /* Игра "Очисти море" */
+        #trashGame {
+            height: 300px;
+            background: linear-gradient(to bottom, #0a192f, #1a3a6e);
+            position: relative;
+            overflow: hidden;
+            border-radius: 5px;
+        }
+        
+        .trash {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .trash:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Кнопки */
+        .btn {
+            background: var(--sea-light);
+            color: var(--sea-deep);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+        
+        .btn:hover {
+            background: #88ffeb;
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+        }
+        
+        /* Анимации */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .marquee { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка с бегущей строкой -->
+    <section class="hero">
+        <h1>Чёрное море</h1>
+        <p style="font-size: 1.3rem; max-width: 800px; padding: 0 20px;">
+            Таинственные глубины, богатая история и уникальная экосистема - исследуйте одно из самых удивительных морей планеты
+        </p>
+        
+        <div class="marquee-container">
+            <div class="marquee">
+                🌊 Чёрное море - одно из самых молодых морей Земли, его возраст около 7 500 лет | 
+                🐠 Здесь обитает 2 500 видов животных, включая дельфинов и медуз | 
+                🏖️ Омывает берега 6 стран: Россия, Украина, Турция, Болгария, Румыния, Грузия | 
+                🚢 На дне покоятся более 2 500 затонувших кораблей | 
+                🌡️ Средняя температура воды летом +25°C | 
+                🏛️ Древние греки называли его "Понт Аксинский" (Негостеприимное море)
+            </div>
+        </div>
+    </section>
+    
+    <!-- Краткая информация -->
+    <section class="info-section">
+        <h2 style="color: var(--sea-light); margin-bottom: 20px;">Уникальные особенности</h2>
+        <p style="max-width: 800px; margin: 0 auto;">
+            Чёрное море - единственное в мире, где на глубине более 150-200 метров практически нет жизни из-за высокого содержания сероводорода. 
+            При этом его поверхностные воды богаты разнообразием морских обитателей. Море играло ключевую роль в истории многих цивилизаций.
+        </p>
+    </section>
+    
+    <!-- Игровая зона -->
+    <section class="games-section">
+        <h2 style="text-align: center; color: var(--sea-light);">Игровая зона</h2>
+        
+        <div class="game-container">
+            <!-- Игра "Морской бой" -->
+            <div class="game-card">
+                <div class="game-title">⚔️ Морской бой</div>
+                <div class="game-content">
+                    <p>Потопите все 3 корабля за минимальное число ходов!</p>
+                    <div id="battleGame"></div>
+                    <p>Ходов: <span id="battleMoves">0</span> | Потоплено: <span id="battleScore">0</span>/3</p>
+                    <button class="btn" onclick="setupBattleGame()">Новая игра</button>
+                </div>
+            </div>
+            
+            <!-- Игра "Очисти море" -->
+            <div class="game-card">
+                <div class="game-title">♻️ Очисти море</div>
+                <div class="game-content">
+                    <p>Собирайте мусор, пока он не заполнил всё море!</p>
+                    <div id="trashGame"></div>
+                    <p>Собрано: <span id="trashScore">0</span> | Загрязнение: <span id="pollutionLevel">0</span>%</p>
+                    <button class="btn" onclick="startTrashGame()">Начать уборку</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // ========== Игра "Морской бой" ==========
+        let battleScore = 0;
+        let battleMoves = 0;
+        let ships = [];
+        
+        function setupBattleGame() {
+            battleScore = 0;
+            battleMoves = 0;
+            document.getElementById('battleScore').textContent = battleScore;
+            document.getElementById('battleMoves').textContent = battleMoves;
+            
+            const gameArea = document.getElementById('battleGame');
+            gameArea.innerHTML = '';
+            
+            // Создаем поле
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'battle-cell';
+                cell.dataset.index = i;
+                cell.addEventListener('click', handleBattleClick);
+                gameArea.appendChild(cell);
+            }
+            
+            // Размещаем корабли (3 одноклеточных)
+            ships = [];
+            while (ships.length < 3) {
+                const pos = Math.floor(Math.random() * 25);
+                if (!ships.includes(pos)) {
+                    ships.push(pos);
+                }
+            }
+        }
+        
+        function handleBattleClick(e) {
+            const cell = e.target;
+            const index = parseInt(cell.dataset.index);
+            
+            if (cell.classList.contains('hit') || cell.classList.contains('miss')) return;
+            
+            battleMoves++;
+            document.getElementById('battleMoves').textContent = battleMoves;
+            
+            if (ships.includes(index)) {
+                cell.classList.add('hit');
+                battleScore++;
+                document.getElementById('battleScore').textContent = battleScore;
+                
+                if (battleScore === 3) {
+                    setTimeout(() => {
+                        alert(`Победа! Вы потопили все корабли за ${battleMoves} ходов!`);
+                    }, 300);
+                }
+            } else {
+                cell.classList.add('miss');
+            }
+        }
+        
+        // ========== Игра "Очисти море" ==========
+        let trashScore = 0;
+        let pollutionLevel = 0;
+        let trashInterval;
+        let trashItems = [
+            '🫙', '🥤', '🍶', '🧃', '🗑️', '📦', '🧴', '🥫'
+        ];
+        
+        function startTrashGame() {
+            trashScore = 0;
+            pollutionLevel = 0;
+            document.getElementById('trashScore').textContent = trashScore;
+            document.getElementById('pollutionLevel').textContent = pollutionLevel;
+            
+            const gameArea = document.getElementById('trashGame');
+            gameArea.innerHTML = '';
+            
+            clearInterval(trashInterval);
+            
+            // Создание мусора
+            trashInterval = setInterval(() => {
+                if (pollutionLevel >= 100) {
+                    clearInterval(trashInterval);
+                    alert(`Игра окончена! Вы собрали ${trashScore} мусора, но море заполнено!`);
+                    return;
+                }
+                
+                const trash = document.createElement('div');
+                trash.className = 'trash';
+                trash.textContent = trashItems[Math.floor(Math.random() * trashItems.length)];
+                trash.style.left = Math.random() * (gameArea.offsetWidth - 40) + 'px';
+                trash.style.top = Math.random() * (gameArea.offsetHeight - 40) + 'px';
+                trash.style.fontSize = (30 + Math.random() * 20) + 'px';
+                
+                trash.addEventListener('click', () => {
+                    trash.remove();
+                    trashScore++;
+                    pollutionLevel -= 5;
+                    if (pollutionLevel < 0) pollutionLevel = 0;
+                    document.getElementById('trashScore').textContent = trashScore;
+                    document.getElementById('pollutionLevel').textContent = pollutionLevel;
+                });
+                
+                gameArea.appendChild(trash);
+                pollutionLevel += 10;
+                document.getElementById('pollutionLevel').textContent = pollutionLevel;
+            }, 1000);
+        }
+        
+        // Инициализация игр при загрузке
+        window.onload = function() {
+            setupBattleGame();
+        };
+    </script>
+</body>
+</html>
